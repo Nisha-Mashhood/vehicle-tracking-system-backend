@@ -1,13 +1,17 @@
+import { HydratedDocument } from "mongoose"
+
 export interface IBaseRepository<T> {
-  create(data: Partial<T>): Promise<T>
 
-  findById(id: string): Promise<T | null>
+  create(data: Partial<T>): Promise<HydratedDocument<T>>
 
-  findAll(filter?: Partial<T>): Promise<T[]>
+  findById(id: string): Promise<HydratedDocument<T> | null>
 
-  update(id: string, data: Partial<T>): Promise<T | null>
+  findAll(filter?: Partial<T>): Promise<HydratedDocument<T>[]>
+
+  update(id: string, data: Partial<T>): Promise<HydratedDocument<T> | null>
 
   deleteById(id: string): Promise<boolean>
 
   deleteAll(): Promise<boolean>
+
 }
