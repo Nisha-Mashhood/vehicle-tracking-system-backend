@@ -9,9 +9,9 @@
     "lint": "eslint . --ext .ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nisha Mashhood",
   "license": "ISC",
-  "description": "",
+  "description": "Backend for Vehicle tracking system",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",

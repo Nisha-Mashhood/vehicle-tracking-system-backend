@@ -118,7 +118,7 @@ The backend provides APIs for:
 Clone the repository:
 
 ```
-git clone <repository-url>
+git clone https://github.com/Nisha-Mashhood/vehicle-tracking-system-backend.git
 cd vehicle-tracking-system/backend
 ```
 
