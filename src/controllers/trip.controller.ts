@@ -3,75 +3,62 @@ import { inject, injectable } from "inversify"
 
 import { BaseController } from "../base/base-controller"
 
-import { IAuthController } from "../interfaces/controllers/i-auth-controller"
-import { IAuthService } from "../interfaces/services/i-auth-service"
+import { ITripController } from "../interfaces/controllers/i-trip-controller"
+import { ITripService } from "../interfaces/services/i-trip-service"
 
 import { STATUS_CODES } from "../constants/status-codes"
 import { SUCCESS_MESSAGES } from "../constants/success-messages"
 import { ERROR_MESSAGES } from "../constants/error-messages"
 
 @injectable()
-export class AuthController extends BaseController implements IAuthController {
+export class TripController extends BaseController implements ITripController {
 
-  private _authService: IAuthService
+  private _tripService: ITripService
 
   constructor(
-    @inject("IAuthService") authService: IAuthService
+    @inject("ITripService") tripService: ITripService
   ) {
     super()
-    this._authService = authService
+    this._tripService = tripService
   }
 
-  async register(req: Request, res: Response): Promise<Response> {
-
+  async uploadTrip(req: Request, res: Response): Promise<Response> {
     try {
-
-      const { email, password } = req.body
-
-      const result = await this._authService.register(email, password)
-
-      return this.sendSuccess(
-        res,
-        STATUS_CODES.CREATED,
-        SUCCESS_MESSAGES.USER_REGISTERED,
-        result
-      )
-
+      const userId = req.body.userId
+      const tripName = req.body.tripName
+      const filePath = (req as Request & { file?: Express.Multer.File }).file?.path
+      await this._tripService.uploadTrip({ userId, tripName }, filePath as string)
+      return this.sendSuccess( res, STATUS_CODES.CREATED,  SUCCESS_MESSAGES.TRIP_UPLOADED )
     } catch (error) {
-
-      return this.sendError(
-        res,
-        STATUS_CODES.BAD_REQUEST,
+      return this.sendError( res, STATUS_CODES.BAD_REQUEST,
         error instanceof Error ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
       )
-
     }
-
   }
 
-  async login(req: Request, res: Response): Promise<Response> {
-
+  async getTrips(req: Request, res: Response): Promise<Response> {
     try {
-
-      const result = await this._authService.login(req.body)
-
-      return this.sendSuccess(
-        res,
-        STATUS_CODES.OK,
-        SUCCESS_MESSAGES.LOGIN_SUCCESS,
-        result
+      const userId = req.params.userId as string
+      const trips = await this._tripService.getTrips(userId)
+      return this.sendSuccess( res, STATUS_CODES.OK, SUCCESS_MESSAGES.TRIPS_FETCHED, trips
       )
-
     } catch (error) {
-
-      return this.sendError(
-        res,
-        STATUS_CODES.BAD_REQUEST,
+      return this.sendError( res, STATUS_CODES.BAD_REQUEST,
         error instanceof Error ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
       )
-
     }
-
   }
 
+  async getTripDetails(req: Request, res: Response): Promise<Response> {
+    try {
+      const tripId = req.params.tripId as string
+      const trip = await this._tripService.getTripDetails(tripId)
+      return this.sendSuccess( res, STATUS_CODES.OK, SUCCESS_MESSAGES.TRIP_FETCHED, trip )
+
+    } catch (error) {
+      return this.sendError( res, STATUS_CODES.BAD_REQUEST,
+        error instanceof Error ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
+      )
+    }
+  }
 }

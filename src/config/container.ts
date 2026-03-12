@@ -15,11 +15,11 @@ import { AuthService } from "../services/auth.service"
 import { TripService } from "../services/trip.service"
 
 // controllers
-// import { IAuthController } from "../interfaces/controllers/i-auth-controller"
-// import { ITripController } from "../interfaces/controllers/i-trip-controller"
+import { IAuthController } from "../interfaces/controllers/i-auth-controller"
+import { ITripController } from "../interfaces/controllers/i-trip-controller"
 
-// import { AuthController } from "../controllers/auth.controller"
-// import { TripController } from "../controllers/trip.controller"
+import { AuthController } from "../controllers/auth.controller"
+import { TripController } from "../controllers/trip.controller"
 
 const container = new Container()
 
@@ -32,7 +32,7 @@ container.bind<IAuthService>("IAuthService").to(AuthService)
 container.bind<ITripService>("ITripService").to(TripService)
 
 // Controller bindings
-// container.bind<IAuthController>("IAuthController").to(AuthController)
-// container.bind<ITripController>("ITripController").to(TripController)
+container.bind<IAuthController>("IAuthController").to(AuthController)
+container.bind<ITripController>("ITripController").to(TripController)
 
 export default container
