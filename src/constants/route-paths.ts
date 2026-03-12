@@ -1,3 +1,8 @@
+export const COMMON_ROUTES = {
+  AUTH: "/auth",
+  TRIPS: "/trips",
+} as const
+
 export const AUTH_ROUTES = {
   REGISTER: "/register",
   LOGIN: "/login"
@@ -7,5 +12,5 @@ export const AUTH_ROUTES = {
 export const TRIP_ROUTES = {
   UPLOAD: "/upload",
   GET_ALL: "/",
-  GET_ONE: "/:tripId"
+  GET_ONE: "/details/:tripId"
 } as const
