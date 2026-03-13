@@ -1,3 +1,7 @@
+export const API_ROUTE = {
+  API: "/api",
+} as const
+
 export const COMMON_ROUTES = {
   AUTH: "/auth",
   TRIPS: "/trips",

@@ -9,6 +9,7 @@ import { ITripService } from "../interfaces/services/i-trip-service"
 import { STATUS_CODES } from "../constants/status-codes"
 import { SUCCESS_MESSAGES } from "../constants/success-messages"
 import { ERROR_MESSAGES } from "../constants/error-messages"
+import { AuthRequest } from "../interfaces/Request/AuthRequest"
 
 @injectable()
 export class TripController extends BaseController implements ITripController {
@@ -24,16 +25,17 @@ export class TripController extends BaseController implements ITripController {
 
   async uploadTrip(req: Request, res: Response): Promise<Response> {
     try {
-      const userId = req.body.userId
+      const authReq = req as AuthRequest
+      const userId = authReq.userId as string
       const tripName = req.body.tripName
-      const filePath = (req as Request & { file?: Express.Multer.File }).file?.path
-      await this._tripService.uploadTrip({ userId, tripName }, filePath as string)
-      return this.sendSuccess( res, STATUS_CODES.CREATED,  SUCCESS_MESSAGES.TRIP_UPLOADED )
+      const filePath = req.file?.path
+      await this._tripService.uploadTrip( { userId, tripName }, filePath as string )
+      return this.sendSuccess( res, STATUS_CODES.CREATED, SUCCESS_MESSAGES.TRIP_UPLOADED )
     } catch (error) {
       return this.sendError( res, STATUS_CODES.BAD_REQUEST,
-        error instanceof Error ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
-      )
-    }
+      error instanceof Error ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR
+    )
+  }
   }
 
   async getTrips(req: Request, res: Response): Promise<Response> {
