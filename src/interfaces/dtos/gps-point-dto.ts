@@ -5,5 +5,8 @@ export interface GPSPointDTO {
   timestamp: Date
   ignition: boolean
   speed: number
+  isOverspeed?: boolean
+  isIdling?: boolean
+  isStoppage?: boolean
 
 }

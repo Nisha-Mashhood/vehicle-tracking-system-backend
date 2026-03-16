@@ -13,8 +13,52 @@ export class TripRepository  extends BaseRepository<ITrip>  implements ITripRepo
     super(TripModel)
   }
 
-  async findTripsByUser(userId: string): Promise<HydratedDocument<ITrip>[]> {
-    return TripModel.find({ userId }).exec()
-  }
+  async findTripsByUser(
+      userId: string,
+      search: string | undefined,
+      filter: string | undefined,
+      page: number,
+      limit: number
+    ): Promise<{
+      trips: HydratedDocument<ITrip>[]
+      total: number
+    }> {
+
+      const query: Record<string, unknown> = { userId }
+
+      // ---------- search ----------
+      if (search) {
+        query.tripName = { $regex: search, $options: "i" }
+      }
+
+      // ---------- filters ----------
+      if (filter === "idling") {
+        query.totalIdling = { $gt: 0 }
+      }
+
+      if (filter === "overspeed") {
+        query.overspeedCount = { $gt: 0 }
+      }
+
+      if (filter === "stoppage") {
+        query.totalStoppage = { $gt: 0 }
+      }
+
+      const skip = (page - 1) * limit
+
+      const trips = await TripModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .exec()
+
+      const total = await TripModel.countDocuments(query)
+
+      return {
+        trips,
+        total
+      }
+    }
 
 }

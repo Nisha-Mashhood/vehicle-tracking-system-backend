@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose"
 import { ITrip } from "../interfaces/models/i-trip"
 import { GPSPointSchema } from "./gps-point.schema"
+import { IdlingEventSchema, OverspeedEventSchema, StoppageEventSchema } from "./events.schema"
 
 const TripSchema = new Schema<ITrip>(
   {
@@ -57,6 +58,21 @@ const TripSchema = new Schema<ITrip>(
     gpsPoints: {
       type: [GPSPointSchema],
       required: true
+    },
+
+    overspeedEvents: { 
+      type: [OverspeedEventSchema], 
+      default: [] 
+    }, 
+    
+    stoppageEvents: { 
+      type: [StoppageEventSchema], 
+      default: [] 
+    }, 
+    
+    idlingEvents: { 
+      type: [IdlingEventSchema], 
+      default: [] 
     }
   },
   {

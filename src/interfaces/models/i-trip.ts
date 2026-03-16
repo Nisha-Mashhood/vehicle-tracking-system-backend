@@ -1,3 +1,4 @@
+import { IIdlingEvent, IOverspeedEvent, IStoppageEvent } from "./i-event"
 import { IGPSPoint } from "./i-gps-point"
 
 export interface ITrip {
@@ -19,5 +20,8 @@ export interface ITrip {
   maxSpeed: number
 
   gpsPoints: IGPSPoint[]
+  overspeedEvents: IOverspeedEvent[]
+  stoppageEvents : IStoppageEvent[]
+  idlingEvents: IIdlingEvent[]
 
 }

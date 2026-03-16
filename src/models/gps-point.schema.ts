@@ -26,6 +26,21 @@ export const GPSPointSchema = new Schema<IGPSPoint>(
     speed: {
       type: Number,
       required: true
+    },
+    
+    isOverspeed: {
+      type: Boolean,
+      default: false
+    },
+
+    isIdling: {
+      type: Boolean,
+      default: false
+    },
+
+    isStoppage: {
+      type: Boolean,
+      default: false
     }
   },
   {

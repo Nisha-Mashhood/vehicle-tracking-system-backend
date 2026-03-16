@@ -8,4 +8,6 @@ export interface ITripController {
 
   getTripDetails(req: Request, res: Response): Promise<Response>
 
+  deleteTrip(req: Request, res: Response): Promise<Response>
+
 }

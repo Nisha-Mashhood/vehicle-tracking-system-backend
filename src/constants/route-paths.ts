@@ -15,6 +15,7 @@ export const AUTH_ROUTES = {
 
 export const TRIP_ROUTES = {
   UPLOAD: "/upload",
-  GET_ALL: "/",
-  GET_ONE: "/details/:tripId"
+  GET_ALL: "/alltrips",
+  GET_ONE: "/details/:tripId",
+  DELETE_ONE: "/delete/:tripId"
 } as const

@@ -13,5 +13,6 @@ const tripController = container.get<ITripController>("ITripController")
 router.post(TRIP_ROUTES.UPLOAD, authMiddleware, upload.single("file"), tripController.uploadTrip.bind(tripController))
 router.get(TRIP_ROUTES.GET_ALL, authMiddleware, tripController.getTrips.bind(tripController))
 router.get(TRIP_ROUTES.GET_ONE, authMiddleware, tripController.getTripDetails.bind(tripController))
+router.delete(TRIP_ROUTES.DELETE_ONE, authMiddleware, tripController.deleteTrip.bind(tripController))
 
 export default router

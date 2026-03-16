@@ -1,3 +1,4 @@
+import { IIdlingEvent, IOverspeedEvent, IStoppageEvent } from "../models/i-event"
 import { GPSPointDTO } from "./gps-point-dto"
 
 export interface TripDetailsResponseDTO {
@@ -13,5 +14,8 @@ export interface TripDetailsResponseDTO {
   maxSpeed: number
 
   gpsPoints: GPSPointDTO[]
+  overspeedEvents: IOverspeedEvent[]
+  stoppageEvents : IStoppageEvent[]
+  idlingEvents: IIdlingEvent[]
 
 }
