@@ -15,6 +15,10 @@ app.use(
 )
 app.use(express.json())
 
+app.get("/", (req, res) => {
+  res.send("Vehicle Tracking API is running ")
+})
+
 app.use(API_ROUTE.API, routes)
 
 export default app
